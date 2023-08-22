@@ -16,7 +16,7 @@ const PostPage = async () => {
                 {Object.values(posts).map((post) => (
                     <div
                         key={new Date().getTime().toString()}
-                        className="flex flex-col gap-4 bg-white rounded-xl p-3"
+                        className="flex flex-col gap-4 bg-white rounded-xl p-3 h-fit w-full"
                     >
                         <h4 className="font-medium text-gray-900">
                             {post.title}
