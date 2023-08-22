@@ -1,8 +1,12 @@
 "use client";
 import { createPost } from "@/actions/post.actions";
 import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 const CreatePost = () => {
+    const path = usePathname();
+    const router = useRouter();
+
     const [error, setError] = useState<string>("");
 
     const action = async (formData: FormData) => {
@@ -10,11 +14,14 @@ const CreatePost = () => {
             id: new Date().getTime(),
             title: formData.get("title")?.toString(),
             content: formData.get("content")?.toString(),
+            path,
         };
 
         const res = await createPost(data);
 
-        if (res?.error) setError(res.error);
+        if (res?.error) return setError(res.error);
+
+        router.push("/post");
     };
 
     return (
@@ -23,7 +30,11 @@ const CreatePost = () => {
             className="flex flex-col gap-6 bg-gray-900 p-6 rounded-xl"
         >
             {/* display error msg */}
-            {error && <p className="text-red-400 tracking-wide font-medium">{error}</p>}
+            {error && (
+                <p className="text-red-400 tracking-wide font-medium">
+                    {error}
+                </p>
+            )}
 
             {/* input */}
             <input

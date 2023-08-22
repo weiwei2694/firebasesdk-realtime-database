@@ -1,15 +1,18 @@
 "use server";
 import { db } from "@/lib/db";
 import { ref, set, get } from "firebase/database";
+import { revalidatePath } from "next/cache";
 
 export const createPost = ({
     id,
     title,
     content,
+    path,
 }: {
     id: number;
     title?: string | null;
     content?: string | null;
+    path: string;
 }) => {
     try {
         if (!title || !content)
@@ -19,6 +22,8 @@ export const createPost = ({
             title,
             content,
         });
+
+        revalidatePath(path);
 
         return post;
     } catch (error: any) {
