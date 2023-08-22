@@ -1,8 +1,8 @@
 "use server";
 import { db } from "@/lib/db";
-import { ref, set } from "firebase/database";
+import { ref, set, get } from "firebase/database";
 
-export const createPost = async ({
+export const createPost = ({
     id,
     title,
     content,
@@ -23,5 +23,17 @@ export const createPost = async ({
         return post;
     } catch (error: any) {
         throw new Error(`createPost Error: ${error.message}`);
+    }
+};
+
+export const fetchPosts = async () => {
+    try {
+        const data = await get(ref(db, "posts")).then((snapshot) => {
+            if (snapshot.exists()) return snapshot.val();
+        });
+
+        return data;
+    } catch (error: any) {
+        throw new Error(`fetchPosts Error: ${error.message}`);
     }
 };
