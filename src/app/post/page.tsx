@@ -1,12 +1,7 @@
 import { fetchPosts } from "@/actions/post.actions";
 import Link from "next/link";
 import PostCard from "@/components/cards/PostCard";
-
-interface Post {
-    id: number;
-    content: string;
-    title: string;
-}
+import { Post } from "@/interfaces/post.interfaces";
 
 const PostPage = async () => {
     const posts: Post = await fetchPosts();

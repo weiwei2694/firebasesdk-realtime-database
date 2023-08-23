@@ -2,12 +2,7 @@
 import { useTransition } from "react";
 import { usePathname } from "next/navigation";
 import { deletePostAction } from "@/actions/post.actions";
-
-interface Post {
-    id: number;
-    title: string;
-    content: string;
-}
+import { Post } from "@/interfaces/post.interfaces";
 
 interface Props {
     key: number;
