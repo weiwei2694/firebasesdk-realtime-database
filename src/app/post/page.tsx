@@ -1,7 +1,9 @@
 import { fetchPosts } from "@/actions/post.actions";
 import Link from "next/link";
+import PostCard from "@/components/cards/PostCard";
 
 interface Post {
+    id: number;
     content: string;
     title: string;
 }
@@ -13,17 +15,8 @@ const PostPage = async () => {
     const showPosts = () => {
         return Object.values(posts).length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-evenly">
-                {Object.values(posts).map((post) => (
-                    <div
-                        key={new Date().getTime().toString()}
-                        className="flex flex-col gap-4 bg-white rounded-xl p-3 h-fit w-full"
-                    >
-                        <h4 className="font-medium text-gray-900">
-                            {post.title}
-                        </h4>
-
-                        <p className="text-sm text-gray-700">{post.content}</p>
-                    </div>
+                {Object.values(posts).map((post: Post) => (
+                    <PostCard key={post.id} post={post} />
                 ))}
             </div>
         ) : (

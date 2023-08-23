@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/lib/db";
-import { ref, set, get } from "firebase/database";
+import { ref, set, get, remove } from "firebase/database";
 import { revalidatePath } from "next/cache";
 
 export const createPost = ({
@@ -19,6 +19,7 @@ export const createPost = ({
             return { error: "title or content must be required" };
 
         const post = set(ref(db, `posts/${id}`), {
+            id,
             title,
             content,
         });
@@ -35,10 +36,27 @@ export const fetchPosts = async () => {
     try {
         const data = await get(ref(db, "posts")).then((snapshot) => {
             if (snapshot.exists()) return snapshot.val();
+            return {};
         });
 
         return data;
     } catch (error: any) {
         throw new Error(`fetchPosts Error: ${error.message}`);
+    }
+};
+
+export const deletePostAction = async ({
+    postId,
+    path,
+}: {
+    postId: number;
+    path: string;
+}) => {
+    try {
+        await remove(ref(db, `posts/${postId}`));
+
+        revalidatePath(path);
+    } catch (error: any) {
+        throw new Error(`deletePost Error: ${error.message}`);
     }
 };
