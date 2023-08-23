@@ -16,7 +16,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={manrope.className}>
-                <main className="max-w-4xl mx-auto py-24">{children}</main>
+                <main className="max-w-4xl mx-auto py-24 px-8">{children}</main>
             </body>
         </html>
     );
